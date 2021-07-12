@@ -24,7 +24,11 @@ const theme = {
       violetPurple: '#7C77B9',
       rubyPink: '#D81159',
       polishedPine: '#439A86',
-      offwhite: '#FBFEF9'
+      offwhite: '#FBFEF9',
+      offlineColor: '#0A2463',
+      onlineColor: '#44FFD1',
+      idleColor: '#FFE66D',
+      DoNotDisturbColor: '#FE4A49',
     },
     font: {
       family: 'Nunito',

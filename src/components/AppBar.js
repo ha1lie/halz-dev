@@ -24,13 +24,26 @@ function AppBar() {
 
     const [showMobileContainer, setShowMobileContainer] = useState(false);
 
+    const [statusSaying, setStatusSaying] = useState("");
+
+    fetch("https://api.becketto.dev/discordStatus?id=783088512139788298")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (myJson) {
+      setStatusSaying(myJson.activity);
+    })
+    .catch(function (error) {
+      console.log("We had an error");
+    });
+
     return (<ResponsiveContext.Consumer>
         {size => (
           <Box fill>
             <AppBarContainer background={ darkMode ? 'appBarBackgroundDark' : 'appBarBackgroundLight' }>
               <Box direction='row' align='center' gap='8px'>
                 <Heading level='2' margin='none' color={ darkMode ? 'appBarTextColorDark' : 'appBarTextColorLight' }>Hallie</Heading>
-                <Heading level='4' margin='none'>Caffeine in the dark hits different</Heading>
+                <Heading level='4' margin='none'>{ statusSaying }</Heading>
               </Box>
               {(size == 'small') ? (
                   <Button icon={ <Menu /> } onClick={ () => { setShowMobileContainer(!showMobileContainer)} } />
@@ -50,7 +63,7 @@ function AppBar() {
                         <Box fill='horizontal' elevation='none' justify='between' direction='row' pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
                           <Box direction='row' align='center' gap='8px'>
                             <Heading level='2' margin='none' color={ darkMode ? 'appBarTextColorDark' : 'appBarTextColorLight' }>Hallie</Heading>
-                            <Heading level='4' margin='none'>Caffeine in the dark hits different</Heading>
+                            <Heading level='4' margin='none'>{ statusSaying }</Heading>
                           </Box>
                           <Button plain icon={ <FormClose size='large' /> } onClick={ () => { setShowMobileContainer(false); } } />
                         </Box>
