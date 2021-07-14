@@ -1,27 +1,64 @@
-import React, { useState } from 'react';
-import { Box, Text, Stack, Image } from 'grommet';
-import Blur from 'react-css-blur';
+import React from 'react';
+import { Box, Heading, Card, Paragraph, ResponsiveContext } from 'grommet';
 
 function HomePage() {
 
-  
-
   return (
-    <Box margin='medium' round='medium'>
-      <Stack anchor='bottom'>
-        <Box height='300px' round='medium' background='url(/dogShell.jpg)' />
-        <Blur radius='10px' transition='0ms'>
-          <Stack>
-            <Box height='150px' fill='horizontal' background='#0b77ffbb' >
-              <Image src='/dogShell.jpg' fill fit='cover' />
+    <ResponsiveContext.Consumer>
+      { size => (
+        <Box>
+          <Card height={ size === 'small' ? '210pt' : '300pt'} pad='medium' margin='medium' background='#DBEBC0'>
+            <Box fill direction='row'>
+              { (size === 'small') ? (
+                <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
+              ) : (
+                <Box fill='vertical' round='medium' width='small' responsive={false} background="url('/frosting.jpg')" />
+              )}
+              <Box margin='medium' direction='column' justify='between'>
+                <Box>
+                  <Heading size='xlarge' weight='700' margin='none'>Hello,</Heading>
+                  <Heading size='large' margin='none'>I'm Hallie.</Heading>
+                </Box>
+                <Paragraph margin={{vertical: 'none'}} padding={{vertical: 'none'}}>she/her. programmer. black belt. chef. photographer. painter. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. artist. creative.</Paragraph>
+              </Box>
             </Box>
-            <Box fill background='#00000060' />
-          </Stack>
-          
-        </Blur>
-        
-      </Stack>
-    </Box>
+          </Card>
+          <Card height={ size === 'small' ? '210pt' : '300pt'} pad='medium' margin='medium' background='#DBEBC0'>
+          <Box fill direction='row'>
+            { (size === 'small') ? (
+              <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
+            ) : (
+              <Box fill='vertical' round='medium' width='small' responsive={false} background="url('/frosting.jpg')" />
+            )}
+            <Box margin='medium' direction='column' justify='between'>
+              <Box>
+                <Heading size='xlarge' weight='700' margin='none'>Hello,</Heading>
+                <Heading size='large' margin='none'>I'm Hallie.</Heading>
+              </Box>
+              <Paragraph margin={{vertical: 'none'}} padding={{vertical: 'none'}}>she/her. programmer. black belt. chef. photographer. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. driver. creative.</Paragraph>
+            </Box>
+          </Box>
+        </Card>
+        <Card height={ size === 'small' ? '210pt' : '300pt'} pad='medium' margin='medium' background='#DBEBC0'>
+          <Box fill direction='row'>
+            { (size === 'small') ? (
+              <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
+            ) : (
+              <Box fill='vertical' round='medium' width='small' responsive={false} background="url('/frosting.jpg')" />
+            )}
+            <Box margin='medium' direction='column' justify='between'>
+              <Box>
+                <Heading size='xlarge' weight='700' margin='none'>Hello,</Heading>
+                <Heading size='large' margin='none'>I'm Hallie.</Heading>
+              </Box>
+              <Paragraph margin={{vertical: 'none'}} padding={{vertical: 'none'}}>she/her. programmer. black belt. chef. photographer. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. driver. creative.</Paragraph>
+            </Box>
+          </Box>
+        </Card>
+        </Box>
+      )}
+    </ResponsiveContext.Consumer>
+    
   );
 }
 

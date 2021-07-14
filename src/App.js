@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Avatar, Box, Grommet, Heading, Button, Collapsible, ResponsiveContext, Layer, DropButton, Anchor, Text, Stack, Sidebar } from 'grommet';
-import { Notification, FormClose, FormDown, Github, Twitter } from "grommet-icons";
+import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
+import { Github, Twitter } from "grommet-icons";
 import AppBar from './components/AppBar';
 import HomePage from './HomePage';
 import AboutMePage from './AboutMePage';
@@ -11,7 +11,7 @@ import UnknownPage from './UnknownPage';
 import DiscordInfo from './components/DiscordInfo';
 import TwitterStream from './components/TwitterStream';
 import GithubStream from './components/GithubStream';
-import DiscordAvater from './components/DiscordAvater';
+import DiscordAvatar from './components/DiscordAvater';
 
 const theme = {
   
@@ -48,26 +48,24 @@ const theme = {
   }
 };
 
-function updateDiscordShield() {
-  httpGetAsync(`https://api.becketto.dev/getDiscordShield?id=783088512139788298`, (status) => {
-      document.getElementById("discordStatus").src = status;
-  })
-}
-function httpGetAsync(theUrl, callback) {
-  // I did not make this.
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() { 
-      if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-          callback(xmlHttp.responseText);
-  }
-  xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-  xmlHttp.send(null);
-}
-// https://cdn.discordapp.com/avatars/783088512139788298/d2cbde3f0916841377f5ed768293e6df.png?size=1024
 function App() {
 
-  const [darkMode, setDarkMode] = useState(true);
+  const darkMode = true;
   const [showSidebar, setShowSidebar] = useState('empty');
+  const [statusSaying, setStatusSaying] = useState("");
+  const [statusColor, setStatusColor] = useState("onlineColor");
+
+  fetch("https://api.becketto.dev/discordStatus?id=783088512139788298")
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (myJson) {
+    setStatusSaying(myJson.activity);
+    setStatusColor(myJson.status.split(" ").join("") + "Color");
+  })
+  .catch(function (error) {
+    console.log("We had an error");
+  });
 
   return (
     <Router>
@@ -75,9 +73,9 @@ function App() {
         <ResponsiveContext.Consumer>
           { size => (
             <Box direction='column'>
-              <AppBar />
-              <Stack>
-                <Box margin={{left: ((size != 'small') ? ( (showSidebar != 'empty' ) ? '370px' : '100px') : '0px')}}>
+              <AppBar statusSaying={ statusSaying } statusColor={ statusColor } darkMode={ darkMode } />
+              <Stack margin={{ top: '45pt'}}>
+                <Box margin={{left: ((size !== 'small') ? ( (showSidebar !== 'empty' ) ? '370px' : '100px') : '0px')}}>
                   <Switch>
                     <Route path='/aboutMe'>
                       <AboutMePage />
@@ -96,23 +94,23 @@ function App() {
                     </Route>
                   </Switch>
                 </Box>
-                { (size != 'small') ? (
-                  <Box direction='row'>
-                    <Collapsible direction='horizontal' open={showSidebar != 'empty'} >
-                      <Box fill='vertical' background='violetPurple' width='250px' pad='small' margin='small' round='small'>
-                        { (showSidebar == 'discord') ? (
-                          <DiscordInfo />
+                { (size !== 'small') ? (
+                  <Box direction='row' style={{ position: 'fixed' }} >
+                    <Collapsible direction='horizontal' open={showSidebar !== 'empty'} >
+                      <Box fill='vertical' elevation='small' background='violetPurple' width='250px' pad='small' margin='small' round='small'>
+                        { (showSidebar === 'discord') ? (
+                          <DiscordInfo statusColor={ statusColor } />
                         ) : ( <Box>
-                          { (showSidebar == 'github') ? (
+                          { (showSidebar === 'github') ? (
                             <GithubStream />
                           ) : ( <TwitterStream /> )}
                         </Box>) }
                       </Box>
                     </Collapsible>
-                    <Box margin='small' direction='column' background='polishedPine' pad='small' round='small' gap='small' align='center'>
-                      <Button plain icon={ <DiscordAvater /> } onClick={ () => { setShowSidebar((showSidebar == 'discord') ? 'empty' : 'discord') } } />
-                      <Button plain icon={ <Github color={ (showSidebar == 'github') ? '#FEFBF9FF' : '#FEFBF9BF' } size='36px' /> } onClick={ () => { setShowSidebar((showSidebar == 'github') ? 'empty' : 'github') } } />
-                      <Button plain icon={ <Twitter color={ (showSidebar == 'twitter') ? '#FEFBF9FF' : '#FEFBF9BF' } size='36px' /> } onClick={ () => { setShowSidebar((showSidebar == 'twitter') ? 'empty' : 'twitter') } } />
+                    <Box height='140pt' margin='small' elevation='small' direction='column' background='polishedPine' pad='small' round='small' gap='small' align='center' justify='between' >
+                      <Button plain icon={ <DiscordAvatar statusColor={ statusColor } /> } onClick={ () => { setShowSidebar((showSidebar === 'discord') ? 'empty' : 'discord') } } />
+                      <Button plain icon={ <Github color={ (showSidebar === 'github') ? '#FEFBF9FF' : '#FEFBF9BF' } size='36px' /> } onClick={ () => { setShowSidebar((showSidebar === 'github') ? 'empty' : 'github') } } />
+                      <Button plain icon={ <Twitter color={ (showSidebar === 'twitter') ? '#FEFBF9FF' : '#FEFBF9BF' } size='36px' /> } onClick={ () => { setShowSidebar((showSidebar === 'twitter') ? 'empty' : 'twitter') } } />
                     </Box>
                   </Box>
                 ) : ( <Box /> )}
