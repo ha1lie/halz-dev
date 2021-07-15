@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
 import { Github, Twitter } from "grommet-icons";
@@ -17,10 +17,14 @@ const theme = {
   
   global: {
     colors: {
-      appBarBackgroundDark: '#2C2C34',
-      appBarBackgroundLight: '#FBFEF9',
-      appBarTextColorDark: '#FBFEF9',
-      appBarTextColorLight: '#2C2C34',
+      appBarBackground: {
+        dark: '#2C2C34',
+        light: 'offwhite'
+      },
+      appBarTextColor: {
+        dark: '#FBFEF9',
+        light: '#2C2C34'
+      },
       violetPurple: '#7C77B9',
       rubyPink: '#D81159',
       polishedPine: '#439A86',
@@ -48,80 +52,151 @@ const theme = {
   }
 };
 
-function App() {
-
-  const darkMode = true;
-  const [showSidebar, setShowSidebar] = useState('empty');
-  const [statusSaying, setStatusSaying] = useState("");
-  const [statusColor, setStatusColor] = useState("onlineColor");
-
-  fetch("https://api.becketto.dev/discordStatus?id=783088512139788298")
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (myJson) {
-    setStatusSaying(myJson.activity);
-    setStatusColor(myJson.status.split(" ").join("") + "Color");
-  })
-  .catch(function (error) {
-    console.log("We had an error");
-  });
-
-  return (
-    <Router>
-      <Grommet theme={theme}>
-        <ResponsiveContext.Consumer>
-          { size => (
-            <Box direction='column'>
-              <AppBar statusSaying={ statusSaying } statusColor={ statusColor } darkMode={ darkMode } />
-              <Stack margin={{ top: '45pt'}}>
-                <Box margin={{left: ((size !== 'small') ? ( (showSidebar !== 'empty' ) ? '370px' : '100px') : '0px')}}>
-                  <Switch>
-                    <Route path='/aboutMe'>
-                      <AboutMePage />
-                    </Route>
-                    <Route path='/contact'>
-                      <ContactPage />
-                    </Route>
-                    <Route path='/myProjects'>
-                      <MyProjectsPage />
-                    </Route>
-                    <Route path='/' exact>
-                      <HomePage />
-                    </Route>
-                    <Route path='/'>
-                      <UnknownPage />
-                    </Route>
-                  </Switch>
-                </Box>
-                { (size !== 'small') ? (
-                  <Box direction='row' style={{ position: 'fixed' }} >
-                    <Collapsible direction='horizontal' open={showSidebar !== 'empty'} >
-                      <Box fill='vertical' elevation='small' background='violetPurple' width='250px' pad='small' margin='small' round='small'>
-                        { (showSidebar === 'discord') ? (
-                          <DiscordInfo statusColor={ statusColor } />
-                        ) : ( <Box>
-                          { (showSidebar === 'github') ? (
-                            <GithubStream />
-                          ) : ( <TwitterStream /> )}
-                        </Box>) }
-                      </Box>
-                    </Collapsible>
-                    <Box height='140pt' margin='small' elevation='small' direction='column' background='polishedPine' pad='small' round='small' gap='small' align='center' justify='between' >
-                      <Button plain icon={ <DiscordAvatar statusColor={ statusColor } /> } onClick={ () => { setShowSidebar((showSidebar === 'discord') ? 'empty' : 'discord') } } />
-                      <Button plain icon={ <Github color={ (showSidebar === 'github') ? '#FEFBF9FF' : '#FEFBF9BF' } size='36px' /> } onClick={ () => { setShowSidebar((showSidebar === 'github') ? 'empty' : 'github') } } />
-                      <Button plain icon={ <Twitter color={ (showSidebar === 'twitter') ? '#FEFBF9FF' : '#FEFBF9BF' } size='36px' /> } onClick={ () => { setShowSidebar((showSidebar === 'twitter') ? 'empty' : 'twitter') } } />
-                    </Box>
-                  </Box>
-                ) : ( <Box /> )}
-              </Stack>
-            </Box>
-          )}
-        </ResponsiveContext.Consumer>
-      </Grommet>
-    </Router>
-    
+const getCommits = async (user, limit) => {
+  limit = limit == undefined ? 25 : limit;
+  let returnValue = [],
+      request = async (path) => {
+          let req = new XMLHttpRequest(),
+              resp;
+          await fetch(`https://api.github.com${path}`).then(async (res) => {
+              resp = await res.json();
+          });
+          return resp;
+      };
+  await Promise.all(
+      (
+          await request(`/users/${user}/repos`)
+      ).map(async (repo) => {
+          Promise.all(
+              (await request(`/repos/${repo.full_name}/commits`)).map(
+                  async (commit) => {
+                      let commitProto = {
+                          url: undefined,
+                          comments: undefined,
+                          message: undefined,
+                          repo: {
+                              url: undefined,
+                              name: undefined,
+                          },
+                          date: {
+                              ms: undefined,
+                              string: undefined,
+                          },
+                          author: {
+                              username: undefined,
+                              avatarURL: undefined,
+                              url: undefined,
+                          },
+                      };
+                      if (commit.committer.login != user) return;
+                      let date = new Date(commit.commit.committer.date);
+                      commitProto.url = commit.html_url;
+                      commitProto.comments = commit.commit.comment_count;
+                      commitProto.message = commit.commit.message;
+                      commitProto.repo.url = repo.html_url;
+                      commitProto.repo.name = repo.name;
+                      commitProto.date.ms = date.getTime();
+                      commitProto.date.string = date.toUTCString();
+                      commitProto.author.avatarURL = commit.committer.avatar_url;
+                      commitProto.author.username = commit.committer.login;
+                      commitProto.author.url = commit.committer.html_url;
+                      returnValue.push(commitProto);
+                  }
+              )
+          );
+      })
   );
+  return returnValue.sort((a, b) => b.date.ms - a.date.ms).slice(0, limit);
+};
+
+async function awaitDiscordFetch() {
+  let response = await fetch("https://api.becketto.dev/discordStatus?id=783088512139788298");
+  let data = await response.json();
+  return data;
+}
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    //state stuff
+    this.state = {
+      showSidebar: 'empty',
+      statusSaying: '',
+      statusColor: '#ffffff00',
+      commits: []
+    };
+  }
+
+  async componentDidMount() {
+
+    //Download discord information for the site user
+    let discordData = await awaitDiscordFetch();
+    this.setState({ statusSaying: discordData.activity, statusColor: (discordData.status.split(" ").join("") + "Color") });
+
+    //Download github information in the background in case it's needed by the user
+    let githubData = await getCommits('ha1lie', 20);
+    this.setState({ commits: githubData });
+  }
+
+  
+
+  render() {
+    return (
+      <Router>/
+        <Grommet full theme={theme} themeMode="dark">
+          <ResponsiveContext.Consumer>
+            { size => (
+              <Box direction='column'>
+                <AppBar commits={ this.state.commits } statusSaying={ this.state.statusSaying } statusColor={ this.state.statusColor } />
+                <Stack margin={{ top: '45pt'}}>
+                  <Box margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '100px') : '0px')}}>
+                    <Switch>
+                      <Route path='/aboutMe'>
+                        <AboutMePage />
+                      </Route>
+                      <Route path='/contact'>
+                        <ContactPage />
+                      </Route>
+                      <Route path='/myProjects'>
+                        <MyProjectsPage />
+                      </Route>
+                      <Route path='/' exact>
+                        <HomePage />
+                      </Route>
+                      <Route path='/'>
+                        <UnknownPage />
+                      </Route>
+                    </Switch>
+                  </Box>
+                  { (size !== 'small') ? (
+                    <Box direction='row' style={{ position: 'fixed' }} >
+                      <Collapsible direction='horizontal' open={this.state.showSidebar !== 'empty'} >
+                        <Box fill='vertical' elevation='small' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ maxHeight: '500px', overflowY: 'scroll' }} >
+                          { (this.state.showSidebar === 'discord') ? (
+                            <DiscordInfo statusColor={ this.state.statusColor } />
+                          ) : ( <Box>
+                            { (this.state.showSidebar === 'github') ? (
+                              <GithubStream commits={ this.state.commits } />
+                            ) : ( <TwitterStream /> )}
+                          </Box>) }
+                        </Box>
+                      </Collapsible>
+                      <Box height='140pt' margin='small' elevation='small' direction='column' background='appBarBackground' pad='small' round='small' gap='small' align='center' justify='between' >
+                        <Button plain icon={ <DiscordAvatar statusColor={ this.state.statusColor } /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'discord') ? 'empty' : 'discord') }) } } />
+                        <Button plain icon={ <Github color='appBarTextColor' size='36px' /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'github') ? 'empty' : 'github') }) } } />
+                        <Button plain icon={ <Twitter color='appBarTextColor' size='36px' /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'twitter') ? 'empty' : 'twitter') }) } } />
+                      </Box>
+                    </Box>
+                  ) : ( <Box /> )}
+                </Stack>
+              </Box>
+            )}
+          </ResponsiveContext.Consumer>
+        </Grommet>
+      </Router>
+    );
+  }
 }
 
 export default App;
