@@ -13,7 +13,7 @@ const AppBarContainer = (props) => (
         justify='between'
         background='raisinBlack'
         pad={{ left: 'medium', right: 'small', vertical: 'small' }}
-        elevation='medium'
+        elevation='none'
         style={{ zIndex: '1', position: 'fixed', left: '0px', right: '0px', top: '0px' }}
         height='60px'
         {...props}
@@ -69,7 +69,7 @@ class AppBar extends Component {
                       </Box>
                     </Box>
                     { (this.state.showAcivityThread !== 'empty') ? (
-                      <Box animation={{ duration: 350, type: 'fadeIn'}} width='90%' height='70%' round='medium' background='violetPurple' style={{ overflowY: 'scroll'}} >
+                      <Box animation={{ duration: 350, type: 'fadeIn'}} width='90%' justify='center' height='70%' round='medium' background='background' style={{ overflowY: 'scroll'}} >
                         { (this.state.showAcivityThread === 'github') ? (
                           <GithubStream commits={ this.props.commits } />
                         ) : (

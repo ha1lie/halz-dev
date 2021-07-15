@@ -5,12 +5,14 @@ import { Anchor, Avatar, Box, Text } from 'grommet';
 class GithubCard extends Component {
   render() {
     return (
-      <Box pad='small' margin='xsmall' background='appBarTextColor' round='small' >
-        <Text>{ this.props.commit.message }</Text>
-        <Box direction='row'>
+      <Box pad='none' margin='xsmall' background='appBarTextColor' round='small' >
+        <Box round={{ size: 'small', corner: 'top' }} pad='small' background='#00000010' margin='none'>
+          <Text weight='600'>{ this.props.commit.title }</Text>
+        </Box>
+        <Box direction='row' pad='small' gap='xsmall'>
           <Avatar size='small' src={ this.props.commit.author.avatarURL } />
-          <Anchor href={ this.props.commit.author.url } target='_blank' >
-            <Text>{ this.props.commit.author.username }</Text>
+          <Anchor href={ this.props.commit.author.url } target='_blank' color='violetPurple' >
+            <Text weight='600'>{ this.props.commit.author.username }</Text>
           </Anchor>
         </Box>
       </Box>

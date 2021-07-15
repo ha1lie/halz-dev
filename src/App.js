@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
+import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack, Text } from 'grommet';
 import { Github, Twitter } from "grommet-icons";
 import AppBar from './components/AppBar';
 import HomePage from './HomePage';
@@ -17,18 +17,20 @@ const theme = {
   
   global: {
     colors: {
-      appBarBackground: {
-        dark: '#2C2C34',
-        light: 'offwhite'
-      },
-      appBarTextColor: {
-        dark: '#FBFEF9',
-        light: '#2C2C34'
-      },
+      background: 'eppeline',
+      appBarBackgroundDark: 'charcoal',
+      appBarBackgroundLight: 'offwhite',
+      appBarTextColorDark: 'offwhite',
+      appBarTextColorLight: 'charcoal',
+      appBarTextColor: '#0000ff',
+      appBarBackground: '#00ff00',
       violetPurple: '#7C77B9',
       rubyPink: '#D81159',
       polishedPine: '#439A86',
       offwhite: '#FBFEF9',
+      charcoal: '#2C2C34',
+      nearBlack: '#17171A',
+      eppeline: '#F7F1ED',
       offlineColor: '#0A2463',
       onlineColor: '#44FFD1',
       idleColor: '#FFE66D',
@@ -73,7 +75,7 @@ const getCommits = async (user, limit) => {
                       let commitProto = {
                           url: undefined,
                           comments: undefined,
-                          message: undefined,
+                          title: undefined,
                           repo: {
                               url: undefined,
                               name: undefined,
@@ -88,11 +90,12 @@ const getCommits = async (user, limit) => {
                               url: undefined,
                           },
                       };
+
                       if (commit.committer.login != user) return;
                       let date = new Date(commit.commit.committer.date);
                       commitProto.url = commit.html_url;
                       commitProto.comments = commit.commit.comment_count;
-                      commitProto.message = commit.commit.message;
+                      commitProto.title = commit.commit.message.split(/\r?\n/)[0] ?? '';
                       commitProto.repo.url = repo.html_url;
                       commitProto.repo.name = repo.name;
                       commitProto.date.ms = date.getTime();
@@ -117,8 +120,23 @@ async function awaitDiscordFetch() {
 
 class App extends Component {
 
+  setColorModeToDark(isDark) {
+    if (isDark) {
+      theme.global.colors.appBarBackground = 'appBarBackgroundDark';
+      theme.global.colors.appBarTextColor = 'appBarTextColorDark';
+      theme.global.colors.background = 'nearBlack';
+    } else {
+      theme.global.colors.appBarBackground = 'appBarBackgroundLight';
+      theme.global.colors.appBarTextColor = 'appBarTextColorLight';
+      theme.global.colors.background = 'eppeline';
+    }
+  }
+
   constructor(props) {
     super(props);
+
+    this.setColorModeToDark(true);
+
     //state stuff
     this.state = {
       showSidebar: 'empty',
@@ -139,12 +157,10 @@ class App extends Component {
     this.setState({ commits: githubData });
   }
 
-  
-
   render() {
     return (
-      <Router>/
-        <Grommet full theme={theme} themeMode="dark">
+      <Grommet full theme={theme} themeMode='dark'>
+        <Router>
           <ResponsiveContext.Consumer>
             { size => (
               <Box direction='column'>
@@ -172,7 +188,7 @@ class App extends Component {
                   { (size !== 'small') ? (
                     <Box direction='row' style={{ position: 'fixed' }} >
                       <Collapsible direction='horizontal' open={this.state.showSidebar !== 'empty'} >
-                        <Box fill='vertical' elevation='small' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ maxHeight: '500px', overflowY: 'scroll' }} >
+                        <Box elevation='none' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ overflowY: 'scroll' }} >
                           { (this.state.showSidebar === 'discord') ? (
                             <DiscordInfo statusColor={ this.state.statusColor } />
                           ) : ( <Box>
@@ -182,7 +198,7 @@ class App extends Component {
                           </Box>) }
                         </Box>
                       </Collapsible>
-                      <Box height='140pt' margin='small' elevation='small' direction='column' background='appBarBackground' pad='small' round='small' gap='small' align='center' justify='between' >
+                      <Box height='140pt' margin='small' elevation='none' direction='column' background='appBarBackground' pad='small' round='small' gap='small' align='center' justify='between' >
                         <Button plain icon={ <DiscordAvatar statusColor={ this.state.statusColor } /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'discord') ? 'empty' : 'discord') }) } } />
                         <Button plain icon={ <Github color='appBarTextColor' size='36px' /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'github') ? 'empty' : 'github') }) } } />
                         <Button plain icon={ <Twitter color='appBarTextColor' size='36px' /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'twitter') ? 'empty' : 'twitter') }) } } />
@@ -193,8 +209,8 @@ class App extends Component {
               </Box>
             )}
           </ResponsiveContext.Consumer>
-        </Grommet>
-      </Router>
+        </Router>
+      </Grommet>
     );
   }
 }

@@ -7,7 +7,7 @@ function HomePage() {
     <ResponsiveContext.Consumer>
       { size => (
         <Box>
-          <Card height={ size === 'small' ? '210pt' : '300pt'} pad='medium' margin='medium' background='#DBEBC0'>
+          <Card height={ size === 'small' ? '210pt' : '300pt'} elevation='none' pad='medium' margin='medium' background='#DBEBC0'>
             <Box fill direction='row'>
               { (size === 'small') ? (
                 <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
@@ -23,7 +23,7 @@ function HomePage() {
               </Box>
             </Box>
           </Card>
-          <Card height={ size === 'small' ? '210pt' : '300pt'} pad='medium' margin='medium' background='#DBEBC0'>
+          <Card height={ size === 'small' ? '210pt' : '300pt'} elevation='none' pad='medium' margin='medium' background='#DBEBC0'>
           <Box fill direction='row'>
             { (size === 'small') ? (
               <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
@@ -39,7 +39,7 @@ function HomePage() {
             </Box>
           </Box>
         </Card>
-        <Card height={ size === 'small' ? '210pt' : '300pt'} pad='medium' margin='medium' background='#DBEBC0'>
+        <Card height={ size === 'small' ? '210pt' : '300pt'} elevation='none' pad='medium' margin='medium' background='#DBEBC0'>
           <Box fill direction='row'>
             { (size === 'small') ? (
               <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
