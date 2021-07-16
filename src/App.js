@@ -188,7 +188,7 @@ class App extends Component {
                   { (size !== 'small') ? (
                     <Box direction='row' style={{ position: 'fixed' }} >
                       <Collapsible direction='horizontal' open={this.state.showSidebar !== 'empty'} >
-                        <Box elevation='none' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ overflowY: 'scroll' }} >
+                        <Box elevation='none' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ overflowY: 'auto' }} >
                           { (this.state.showSidebar === 'discord') ? (
                             <DiscordInfo statusColor={ this.state.statusColor } />
                           ) : ( <Box>
