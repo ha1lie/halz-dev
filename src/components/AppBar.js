@@ -53,7 +53,7 @@ class AppBar extends Component {
           </AppBarContainer>
           {(size === 'small' && this.state.showMobileContainer) ? ( 
               <Layer animation='fadeIn' background="#00000000">
-                  <Box flex background='appBarBackground' tag='header' justify='between' align='center' direction='column' >
+                  <Box fill background='appBarBackground' tag='header' justify='between' align='center' direction='column' >
                     <Box fill='horizontal' direction='column'>
                       <Box fill='horizontal' elevation='none' justify='between' direction='row' pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
                         <Box direction='row' align='center' gap='8px'>
@@ -69,7 +69,7 @@ class AppBar extends Component {
                       </Box>
                     </Box>
                     { (this.state.showAcivityThread !== 'empty') ? (
-                      <Box animation={{ duration: 350, type: 'fadeIn'}} width='90%' justify='center' height='70%' round='medium' background='background' style={{ overflowY: 'scroll'}} >
+                      <Box animation={{ duration: 350, type: 'fadeIn'}} width='90%' height='60vh' justify='center' round='medium' background='background' style={{ overflowY: 'scroll'}} >
                         { (this.state.showAcivityThread === 'github') ? (
                           <GithubStream commits={ this.props.commits } />
                         ) : (
@@ -95,7 +95,7 @@ class AppBar extends Component {
                         </Anchor>
                       </Box>
                     ) }
-                    <Box direction='row' pad='large' gap='36px'>
+                    <Box fill='horizontal' direction='row' pad={{ horizontal: 'large', vertical: 'small'}} align='center' justify='center' gap='36px'>
                       <Anchor color='appBarTextColor' icon={ <Box align='center'><Github size='large' /><Text>@ha1lie</Text></Box> } href='https://github.com/ha1lie' target='_blank' />
                       <Anchor color='appBarTextColor' icon={ <Box align='center'><Twitter size='large' /><Text>@h4l1ie</Text></Box> } href='https://twitter.com/h4l1ie' target='_blank' />
                     </Box>

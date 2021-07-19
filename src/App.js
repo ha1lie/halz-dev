@@ -12,6 +12,7 @@ import DiscordInfo from './components/DiscordInfo';
 import TwitterStream from './components/TwitterStream';
 import GithubStream from './components/GithubStream';
 import DiscordAvatar from './components/DiscordAvater';
+import { Mode, useLightSwitch } from 'use-light-switch';
 
 const theme = {
   
@@ -122,10 +123,12 @@ class App extends Component {
 
   setColorModeToDark(isDark) {
     if (isDark) {
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", '#2C2C34');
       theme.global.colors.appBarBackground = 'appBarBackgroundDark';
       theme.global.colors.appBarTextColor = 'appBarTextColorDark';
       theme.global.colors.background = 'nearBlack';
     } else {
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", '#FBFEF9');
       theme.global.colors.appBarBackground = 'appBarBackgroundLight';
       theme.global.colors.appBarTextColor = 'appBarTextColorLight';
       theme.global.colors.background = 'eppeline';
@@ -134,6 +137,8 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
+    // const mode = useLightSwitch();
 
     this.setColorModeToDark(true);
 
@@ -147,14 +152,13 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    //Download github information in the background in case it's needed by the user
+    let githubData = await getCommits('ha1lie', 20);
+    this.setState({ commits: githubData });
 
     //Download discord information for the site user
     let discordData = await awaitDiscordFetch();
     this.setState({ statusSaying: discordData.activity, statusColor: (discordData.status.split(" ").join("") + "Color") });
-
-    //Download github information in the background in case it's needed by the user
-    let githubData = await getCommits('ha1lie', 20);
-    this.setState({ commits: githubData });
   }
 
   render() {
@@ -188,7 +192,7 @@ class App extends Component {
                   { (size !== 'small') ? (
                     <Box direction='row' style={{ position: 'fixed' }} >
                       <Collapsible direction='horizontal' open={this.state.showSidebar !== 'empty'} >
-                        <Box elevation='none' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ overflowY: 'auto' }} >
+                        <Box flex elevation='none' background='appBarBackground' width='250px' pad='small' margin='small' round='small' style={{ overflowY: 'scroll', maxHeight: '90vh' }} >
                           { (this.state.showSidebar === 'discord') ? (
                             <DiscordInfo statusColor={ this.state.statusColor } />
                           ) : ( <Box>
