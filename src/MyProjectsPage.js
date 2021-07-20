@@ -1,12 +1,19 @@
-import React from 'react';
-import { Box, Text } from 'grommet';
+import React, { Component } from 'react';
+import { Box, Heading, Text } from 'grommet';
 
-function MyProjectsPage() {
+class MyProjectsPage extends Component {
+  render() {
     return (
-        <Box>
-            <Text>These are my projects.</Text>
-        </Box>
+      <Box direction='column'>
+        <Text>These are my projects.</Text>
+        <Heading>Waves Music App</Heading>
+        <Heading>My Website</Heading>
+        <Heading>WaggleTunes Tweak</Heading>
+        <Heading>BattiBar Tweak</Heading>
+        <Heading>Snapify Tweak</Heading>
+      </Box>
     );
+  }
 }
 
 export default MyProjectsPage;

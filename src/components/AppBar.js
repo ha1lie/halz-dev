@@ -75,7 +75,7 @@ class AppBar extends Component {
                         ) : (
                           <Box>
                             {(this.state.showAcivityThread === 'discord') ? (
-                              <DiscordInfo />
+                              <DiscordInfo statusColor={ this.props.statusColor } />
                             ) : (
                               <Text>TWITTER VIEW</Text>
                             )}
@@ -101,7 +101,7 @@ class AppBar extends Component {
                     </Box>
                   </Box>
               </Layer>
-            ) : (<Box />)}
+            ) : undefined }
           </Box>
         )}
       </ResponsiveContext.Consumer>

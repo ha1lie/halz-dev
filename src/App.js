@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
-import { Github, Twitter } from "grommet-icons";
+import { Github, Resume, Twitter } from "grommet-icons";
 import AppBar from './components/AppBar';
 import HomePage from './HomePage';
 import AboutMePage from './AboutMePage';
@@ -12,6 +12,7 @@ import DiscordInfo from './components/DiscordInfo';
 import TwitterStream from './components/TwitterStream';
 import GithubStream from './components/GithubStream';
 import DiscordAvatar from './components/DiscordAvater';
+import ResumePage from './ResumePage';
 
 const theme = {
   
@@ -168,26 +169,7 @@ class App extends Component {
             { size => (
               <Box direction='column'>
                 <AppBar commits={ this.state.commits } statusSaying={ this.state.statusSaying } statusColor={ this.state.statusColor } />
-                <Stack margin={{ top: '45pt'}}>
-                  <Box margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '100px') : '0px')}}>
-                    <Switch>
-                      <Route path='/aboutMe'>
-                        <AboutMePage />
-                      </Route>
-                      <Route path='/contact'>
-                        <ContactPage />
-                      </Route>
-                      <Route path='/myProjects'>
-                        <MyProjectsPage />
-                      </Route>
-                      <Route path='/' exact>
-                        <HomePage />
-                      </Route>
-                      <Route path='/'>
-                        <UnknownPage />
-                      </Route>
-                    </Switch>
-                  </Box>
+                <Box direction='row' margin={{ top: '45pt'}}>
                   { (size !== 'small') ? (
                     <Box direction='row' style={{ position: 'fixed' }} >
                       <Collapsible direction='horizontal' open={this.state.showSidebar !== 'empty'} >
@@ -207,8 +189,30 @@ class App extends Component {
                         <Button plain icon={ <Twitter color='appBarTextColor' size='36px' /> } onClick={ () => { this.setState({ showSidebar: ((this.state.showSidebar === 'twitter') ? 'empty' : 'twitter') }) } } />
                       </Box>
                     </Box>
-                  ) : ( <Box /> )}
-                </Stack>
+                  ) : undefined }
+                  <Box flex='grow' margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '100px') : '0px')}}>
+                    <Switch>
+                      <Route path='/aboutMe/resume' exact>
+                        <ResumePage />
+                      </Route>
+                      <Route path='/aboutMe' exact>
+                        <AboutMePage />
+                      </Route>
+                      <Route path='/contact' exact>
+                        <ContactPage />
+                      </Route>
+                      <Route path='/myProjects' exact>
+                        <MyProjectsPage />
+                      </Route>
+                      <Route path='/' exact>
+                        <HomePage />
+                      </Route>
+                      <Route path='/'>
+                        <UnknownPage />
+                      </Route>
+                    </Switch>
+                  </Box>
+                </Box>
               </Box>
             )}
           </ResponsiveContext.Consumer>
