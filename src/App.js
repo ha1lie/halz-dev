@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack, Text } from 'grommet';
+import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
 import { Github, Twitter } from "grommet-icons";
 import AppBar from './components/AppBar';
 import HomePage from './HomePage';
@@ -12,7 +12,6 @@ import DiscordInfo from './components/DiscordInfo';
 import TwitterStream from './components/TwitterStream';
 import GithubStream from './components/GithubStream';
 import DiscordAvatar from './components/DiscordAvater';
-import { Mode, useLightSwitch } from 'use-light-switch';
 
 const theme = {
   
@@ -56,7 +55,7 @@ const theme = {
 };
 
 const getCommits = async (user, limit) => {
-  limit = limit == undefined ? 25 : limit;
+  limit = limit === undefined ? 25 : limit;
   let returnValue = [],
       request = async (path) => {
           let req = new XMLHttpRequest(),
@@ -92,7 +91,7 @@ const getCommits = async (user, limit) => {
                           },
                       };
 
-                      if (commit.committer.login != user) return;
+                      if (commit.committer.login !== user) return;
                       let date = new Date(commit.commit.committer.date);
                       commitProto.url = commit.html_url;
                       commitProto.comments = commit.commit.comment_count;

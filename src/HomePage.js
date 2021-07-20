@@ -1,65 +1,19 @@
-import React from 'react';
-import { Box, Heading, Card, Paragraph, ResponsiveContext } from 'grommet';
+import React, { Component } from 'react';
+import { Box } from 'grommet';
+import HomeCard from './components/HomeCard';
 
-function HomePage() {
 
-  return (
-    <ResponsiveContext.Consumer>
-      { size => (
-        <Box>
-          <Card height={ size === 'small' ? '210pt' : '300pt'} elevation='none' pad='medium' margin='medium' background='#DBEBC0'>
-            <Box fill direction='row'>
-              { (size === 'small') ? (
-                <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
-              ) : (
-                <Box fill='vertical' round='medium' width='small' responsive={false} background="url('/frosting.jpg')" />
-              )}
-              <Box margin='medium' direction='column' justify='between'>
-                <Box>
-                  <Heading size='xlarge' weight='700' margin='none'>Hello,</Heading>
-                  <Heading size='large' margin='none'>I'm Hallie.</Heading>
-                </Box>
-                <Paragraph margin={{vertical: 'none'}} padding={{vertical: 'none'}}>she/her. programmer. black belt. chef. photographer. painter. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. artist. creative.</Paragraph>
-              </Box>
-            </Box>
-          </Card>
-          <Card height={ size === 'small' ? '210pt' : '300pt'} elevation='none' pad='medium' margin='medium' background='#DBEBC0'>
-          <Box fill direction='row'>
-            { (size === 'small') ? (
-              <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
-            ) : (
-              <Box fill='vertical' round='medium' width='small' responsive={false} background="url('/frosting.jpg')" />
-            )}
-            <Box margin='medium' direction='column' justify='between'>
-              <Box>
-                <Heading size='xlarge' weight='700' margin='none'>Hello,</Heading>
-                <Heading size='large' margin='none'>I'm Hallie.</Heading>
-              </Box>
-              <Paragraph margin={{vertical: 'none'}} padding={{vertical: 'none'}}>she/her. programmer. black belt. chef. photographer. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. driver. creative.</Paragraph>
-            </Box>
-          </Box>
-        </Card>
-        <Card height={ size === 'small' ? '210pt' : '300pt'} elevation='none' pad='medium' margin='medium' background='#DBEBC0'>
-          <Box fill direction='row'>
-            { (size === 'small') ? (
-              <Box fill='vertical' width='12pt' background='#00000020' round='6pt' />
-            ) : (
-              <Box fill='vertical' round='medium' width='small' responsive={false} background="url('/frosting.jpg')" />
-            )}
-            <Box margin='medium' direction='column' justify='between'>
-              <Box>
-                <Heading size='xlarge' weight='700' margin='none'>Hello,</Heading>
-                <Heading size='large' margin='none'>I'm Hallie.</Heading>
-              </Box>
-              <Paragraph margin={{vertical: 'none'}} padding={{vertical: 'none'}}>she/her. programmer. black belt. chef. photographer. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. driver. creative.</Paragraph>
-            </Box>
-          </Box>
-        </Card>
-        </Box>
-      )}
-    </ResponsiveContext.Consumer>
-    
-  );
+class HomePage extends Component {
+  render() {
+    return(
+      <Box direction='column'>
+        <HomeCard imageSide='left' color='violetPurple' textColor='white' backgroundString="url('/sand.jpg')" />
+        <HomeCard imageSide='right' color='polishedPine' textColor='white' backgroundString="url('/powerlines.jpg')" topTitle='Code' bottomTitle='Unbelievable' bodyText='With experience in dozens of programming languages, I can bring your vision to life.' />
+        <HomeCard imageSide='left' color='eppeline' topTitle='Design' bottomTitle='Beautiful' bodyText='With the ability to bring your words into picture. Building beautiful interactions in pure code, Adobe Illustrator, and even paper.' />
+        <HomeCard imageSide='right' color='rubyPink' textColor='white' backgroundString="url('/starbucks.jpg')" topTitle='Leading' bottomTitle='Bravely' bodyText='Three years of experience teaching martial arts and aiding individuals learn to code, with guidance and a leading project manager.' />
+      </Box>
+    );
+  }
 }
 
 export default HomePage;
