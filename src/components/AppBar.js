@@ -37,7 +37,7 @@ class AppBar extends Component {
           <AppBarContainer background='appBarBackground' >
             <Box direction='row' align='center' gap='8px'>
               <Anchor href='/'>
-                <Heading level='2' margin='none' color='appBarTextColor'>Hallie</Heading>
+                <Heading level='2' margin='none' color='appBarTextColor'>Hallerson</Heading>
               </Anchor>
               <Heading level='4' margin='none'>{ this.props.statusSaying }</Heading>
             </Box>
@@ -57,7 +57,7 @@ class AppBar extends Component {
                     <Box fill='horizontal' direction='column'>
                       <Box fill='horizontal' elevation='none' justify='between' direction='row' pad={{ left: 'medium', right: 'small', vertical: 'small' }}>
                         <Box direction='row' align='center' gap='8px'>
-                          <Heading level='2' margin='none' color='appBarTextColor'>Hallie</Heading>
+                          <Heading level='2' margin='none' color='appBarTextColor'>Hallerson</Heading>
                           <Heading level='4' margin='none'>{ this.props.statusSaying }</Heading>
                         </Box>
                         <Button plain icon={ <FormClose size='large' /> } onClick={ () => { this.setState({ showMobileContainer: false, showAcivityThread: this.state.showAcivityThread }) } } />

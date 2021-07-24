@@ -20,10 +20,10 @@ class HomeCard extends Component {
             )}
             <Box margin='medium' direction='column' justify='between' align={ this.props.imageSide === 'right' ? 'end' : 'start'}>
               <Box align={ this.props.imageSide === 'right' ? 'end' : 'start'}>
-                <Heading color={ this.props.textColor ?? '#444444' } size='xlarge' weight='700' margin='none'>{ this.props.topTitle ?? 'Hello,' }</Heading>
-                <Heading color={ this.props.textColor ?? '#444444' } size='large' margin='none'>{ this.props.bottomTitle ?? "I'm Hallie." }</Heading>
+                <Heading color={ this.props.textColor ?? '#444444' } size='xlarge' weight='700' margin='none'>{ this.props.topTitle ?? 'Greetings,' }</Heading>
+                <Heading color={ this.props.textColor ?? '#444444' } size='large' margin='none'>{ this.props.bottomTitle ?? "I am Hallerson." }</Heading>
               </Box>
-              <Paragraph color={ this.props.textColor ?? '#444444' } textAlign={ this.props.imageSide === 'right' ? 'end' : 'start'} margin={{vertical: 'none'}} padding={{vertical: 'none'}}>{ this.props.bodyText ?? 'she/her. programmer. black belt. chef. photographer. painter. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. artist. creative.' }</Paragraph>
+              <Paragraph color={ this.props.textColor ?? '#444444' } textAlign={ this.props.imageSide === 'right' ? 'end' : 'start'} margin={{vertical: 'none'}} padding={{vertical: 'none'}}>{ this.props.bodyText ?? 'n/fr. key masher. black belt. chef. photographer. painter. teacher. friend. designer. cyclist. student. neurodivergent. artist. hostess. artist. creative.' }</Paragraph>
             </Box>
             <Box flex='grow' />
           </Box>

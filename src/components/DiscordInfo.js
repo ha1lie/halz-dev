@@ -23,7 +23,7 @@ class DiscordInfo extends Component {
           <Box background={ this.props.statusColor } width='20px' height='20px' round='10px' margin='4px' />
         </Stack>
         <Anchor plain href='https://discordapp.com/users/783088512139788298' target='_blank'>
-          <Text size='16pt' weight='700' color='appBarTextColor'>hallie#2021</Text>
+          <Text size='16pt' weight='700' color='appBarTextColor'>Hallerson#2021</Text>
         </Anchor>
         <Text margin={{bottom: 'large'}} weight='200' color='appBarTextColor'>Status: { this.getStatusString() }</Text>
       </Box>
