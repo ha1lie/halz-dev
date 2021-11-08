@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
 import { Github, Resume, Twitter } from "grommet-icons";
-import AppBar from './components/AppBar';
-import HomePage from './HomePage';
-import AboutMePage from './AboutMePage';
-import ContactPage from './ContactPage';
-import MyProjectsPage from './MyProjectsPage';
-import UnknownPage from './UnknownPage';
-import DiscordInfo from './components/DiscordInfo';
-import TwitterStream from './components/TwitterStream';
-import GithubStream from './components/GithubStream';
-import DiscordAvatar from './components/DiscordAvater';
-import ResumePage from './ResumePage';
+import AppBar from './components/Global/AppBar';
+import HomePage from './Pages/HomePage';
+import AboutMePage from './Pages/AboutMe/AboutMePage';
+import ContactPage from './Pages/ContactPage';
+import MyProjectsPage from './Pages/MyProjectsPage';
+import UnknownPage from './Pages/UnknownPage';
+import DiscordInfo from './components/AppBarHelpers/DiscordInfo';
+import TwitterStream from './components/AppBarHelpers/TwitterStream';
+import GithubStream from './components/Github/GithubStream';
+import DiscordAvatar from './components/AppBarHelpers/DiscordAvater';
+import ResumePage from './Pages/AboutMe/ResumePage';
 
 const theme = {
   
@@ -114,7 +114,7 @@ const getCommits = async (user, limit) => {
 };
 
 async function awaitDiscordFetch() {
-  let response = await fetch("https://api.becketto.dev/discordStatus?id=783088512139788298");
+  let response = await fetch("https://api.becketto.dev/getDiscordStatus?userId=783088512139788298");
   let data = await response.json();
   return data;
 }
@@ -158,7 +158,16 @@ class App extends Component {
 
     //Download discord information for the site user
     let discordData = await awaitDiscordFetch();
-    this.setState({ statusSaying: discordData.activity, statusColor: (discordData.status.split(" ").join("") + "Color") });
+    let saying = ""
+    if (discordData.activity.type != undefined && discordData.activity.name != undefined) {
+      saying = discordData.activity.type + " " + discordData.activity.name 
+    } else if (discordData.activity.custom != undefined) {
+      saying = discordData.activity.custom
+    }
+    this.setState({ 
+      statusSaying: saying, 
+      statusColor: (discordData.status.split(" ").join("") + "Color") 
+    });
   }
 
   render() {
@@ -190,7 +199,7 @@ class App extends Component {
                       </Box>
                     </Box>
                   ) : undefined }
-                  <Box flex='grow' margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '100px') : '0px')}}>
+                  <Box flex='grow' margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '60pt') : '0px')}}>
                     <Switch>
                       <Route path='/aboutMe/resume' exact>
                         <ResumePage />
@@ -201,7 +210,7 @@ class App extends Component {
                       <Route path='/contact' exact>
                         <ContactPage />
                       </Route>
-                      <Route path='/myProjects' exact>
+                      <Route path='/projects' exact>
                         <MyProjectsPage />
                       </Route>
                       <Route path='/' exact>

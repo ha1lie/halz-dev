@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Box } from 'grommet';
 import { Github, Action, Twitter, Mail } from 'grommet-icons';
 import { FaDiscord } from 'react-icons/fa';
-import ContactCard from './components/ContactCard';
+import ContactCard from '../components/ContactCard';
 
 class ContactPage extends Component {
   render() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Box } from 'grommet';
-import HomeCard from './components/HomeCard';
+import HomeCard from '../components/HomePage/HomeCard';
 
 
 class HomePage extends Component {

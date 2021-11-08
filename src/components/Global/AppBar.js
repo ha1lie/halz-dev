@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Box, Heading, Button, ResponsiveContext, Layer, Anchor, Text } from 'grommet';
 import { FormClose, Github, Twitter, Menu } from "grommet-icons";
-import DiscordAvatar from "./DiscordAvater";
-import DiscordInfo from "./DiscordInfo";
-import GithubStream from "./GithubStream";
+import DiscordAvatar from "../AppBarHelpers/DiscordAvater";
+import DiscordInfo from "../AppBarHelpers/DiscordInfo";
+import GithubStream from "../Github/GithubStream";
 
 const AppBarContainer = (props) => (
     <Box 
@@ -39,6 +39,9 @@ class AppBar extends Component {
               <Anchor href='/'>
                 <Heading level='2' margin='none' color='appBarTextColor'>Hallie</Heading>
               </Anchor>
+              <Box background='#ff000050' pad='small' round='small' margin={{ horizontal: 'small' }} align='center' justify='center'>
+                <Text color='white'>WIP Website</Text>
+              </Box>
               <Heading level='4' margin='none'>{ this.props.statusSaying }</Heading>
             </Box>
             {(size === 'small') ? (
@@ -47,7 +50,7 @@ class AppBar extends Component {
                 <Box direction='row' pad='horizontal'>
                 <Anchor color='appBarTextColor' label='About Me' href='/aboutMe' />
                 <Anchor color='appBarTextColor' label='Contact' margin={{left: 'small'}} href='/contact' />
-                <Anchor color='appBarTextColor' label='My Projects' margin={{left: 'small'}} href='/myProjects' />
+                <Anchor color='appBarTextColor' label='My Projects' margin={{left: 'small'}} href='/projects' />
               </Box>
             )}
           </AppBarContainer>
@@ -90,7 +93,7 @@ class AppBar extends Component {
                         <Anchor color='appBarTextColor' href='/contact' >
                           <Heading level='1'>Contact</Heading>
                         </Anchor>
-                        <Anchor color='appBarTextColor' href='/myProjects' >
+                        <Anchor color='appBarTextColor' href='/projects' >
                           <Heading level='1'>My Projects</Heading>
                         </Anchor>
                       </Box>
