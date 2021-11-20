@@ -1,61 +1,6 @@
 import React, { Component } from 'react';
-import { Box, Collapsible, Heading, Anchor, Text } from 'grommet';
-import { Down, Up } from 'grommet-icons';
-
-class ProjectCard extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      isExpanded: this.props.defaultExpanded ?? false
-    }
-  }
-
-  toggleExpansion() {
-    this.setState({ isExpanded: !this.state.isExpanded })
-  }
-
-  render() {
-    return (
-      <Box direction='column' round='medium' background={ this.props.color ?? '#5e5ec6' } >
-        <Box onClick={ () => { this.toggleExpansion() } } focusIndicator={ false } direction='row' justify='between' align='center' background='#00000030' pad={{ horizontal: 'medium', vertical: 'small' }} round={{ size:'medium', corner: 'top' }}>
-          <Box> 
-            <Box direction='row' align='center'>
-              <Text weight='700' size='150%'>{ this.props.title }</Text>
-              { this.props.workInProgress ? (
-                <Box background='#ff000050' pad='small' round='small' margin={{ horizontal: 'small' }} align='center' justify='center'>
-                  <Text color='white'>Work In Progress</Text>
-                </Box>
-              ) : (
-                <Box>
-                </Box>
-              )}
-              { this.props.inBeta ? (
-                <Box background='#a848ab50' pad='small' round='small' margin={{ horizontal: 'small' }} align='center' justify='center'>
-                  <Text color='white'>Beta Testing Open</Text>
-                </Box>
-              ) : (
-                <Box>
-                </Box>
-              )}
-            </Box>
-            <Text>{ this.props.subtitle }</Text>
-          </Box>
-          { this.state.isExpanded ? (
-            <Up onClick={ () => { this.toggleExpansion() } } />
-          ) : (
-            <Down onClick={ () => { this.toggleExpansion() } } />
-          )}
-        </Box>
-        <Collapsible open={ this.state.isExpanded }>
-          <Box pad='small'>
-            { this.props.children }
-          </Box>
-        </Collapsible>
-      </Box>
-    );
-  }
-}
+import { Box, Anchor, Text } from 'grommet';
+import ProjectCard from '../components/Projects/ProjectCard';
 
 class MyProjectsPage extends Component {
   render() {
@@ -63,7 +8,7 @@ class MyProjectsPage extends Component {
       <Box direction='column' gap='medium' margin='medium'>
         <Box>
           <Text weight='700' size='220%'>My Works</Text>
-          <Text>A Collection of projects put together by yours truly. Many projects are opensource, and I encourage you to take a look, and learn from my mistakes!</Text>
+          <Text>A Collection of projects put together by yours truly. Many projects are opensource, and I encourage you to take a look, and learn from my mistakes!Many projects are opensource, and I encourage you to take a look, and learn from my mistakes!Many projects are opensource, and I encourage you to take a look, and learn from my mistakes!</Text>
         </Box>
         <Text weight='600' size='160%'>The Latest</Text>
         <ProjectCard defaultExpanded={true} title="SymPlace" color='#4B8F8C' subtitle="Discover safe spaces near you">

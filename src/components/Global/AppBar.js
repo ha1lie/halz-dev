@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Box, Heading, Button, ResponsiveContext, Layer, Anchor, Text } from 'grommet';
 import { FormClose, Github, Twitter, Menu } from "grommet-icons";
-import DiscordAvatar from "../AppBarHelpers/DiscordAvater";
+import DiscordAvatar from "../AppBarHelpers/DiscordAvatar";
 import DiscordInfo from "../AppBarHelpers/DiscordInfo";
 import GithubStream from "../Github/GithubStream";
 

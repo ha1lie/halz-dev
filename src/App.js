@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Box, Grommet, Button, Collapsible, ResponsiveContext, Stack } from 'grommet';
-import { Github, Resume, Twitter } from "grommet-icons";
+import { Box, Grommet, Button, Collapsible, ResponsiveContext } from 'grommet';
+import { Github, Twitter } from "grommet-icons";
 import AppBar from './components/Global/AppBar';
 import HomePage from './Pages/HomePage';
 import AboutMePage from './Pages/AboutMe/AboutMePage';
@@ -11,7 +11,7 @@ import UnknownPage from './Pages/UnknownPage';
 import DiscordInfo from './components/AppBarHelpers/DiscordInfo';
 import TwitterStream from './components/AppBarHelpers/TwitterStream';
 import GithubStream from './components/Github/GithubStream';
-import DiscordAvatar from './components/AppBarHelpers/DiscordAvater';
+import DiscordAvatar from './components/AppBarHelpers/DiscordAvatar';
 import ResumePage from './Pages/AboutMe/ResumePage';
 
 const theme = {
@@ -59,8 +59,7 @@ const getCommits = async (user, limit) => {
   limit = limit === undefined ? 25 : limit;
   let returnValue = [],
       request = async (path) => {
-          let req = new XMLHttpRequest(),
-              resp;
+          let resp;
           await fetch(`https://api.github.com${path}`).then(async (res) => {
               resp = await res.json();
           });
@@ -159,9 +158,9 @@ class App extends Component {
     //Download discord information for the site user
     let discordData = await awaitDiscordFetch();
     let saying = ""
-    if (discordData.activity.type != undefined && discordData.activity.name != undefined) {
+    if (discordData.activity.type !== undefined && discordData.activity.name !== undefined) {
       saying = discordData.activity.type + " " + discordData.activity.name 
-    } else if (discordData.activity.custom != undefined) {
+    } else if (discordData.activity.custom !== undefined) {
       saying = discordData.activity.custom
     }
     this.setState({ 
@@ -199,7 +198,7 @@ class App extends Component {
                       </Box>
                     </Box>
                   ) : undefined }
-                  <Box flex='grow' margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '60pt') : '0px')}}>
+                  <Box flex='grow' direction='column' margin={{left: ((size !== 'small') ? ( (this.state.showSidebar !== 'empty' ) ? '370px' : '60pt') : '0px')}}>
                     <Switch>
                       <Route path='/aboutMe/resume' exact>
                         <ResumePage />
@@ -211,7 +210,7 @@ class App extends Component {
                         <ContactPage />
                       </Route>
                       <Route path='/projects' exact>
-                        <MyProjectsPage />
+                        <MyProjectsPage padding={{left: '60pt'}} />
                       </Route>
                       <Route path='/' exact>
                         <HomePage />

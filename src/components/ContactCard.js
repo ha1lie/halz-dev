@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Heading, Paragraph, Text, ResponsiveContext, Anchor } from 'grommet';
+import { Box, Paragraph, Text, ResponsiveContext, Anchor } from 'grommet';
 
 class ContactCard extends Component {
   render() {

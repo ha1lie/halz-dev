@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar, Box, Button, Heading, Paragraph, Text } from 'grommet';
-import { FaChevronRight } from 'react-icons/fa';
+import { Box, Heading, Paragraph } from 'grommet';
 import ActionLinkButton from '../../components/Global/ActionLinkButton';
 
 class AboutMePage extends Component {
