@@ -32,7 +32,7 @@ class ProjectCard extends Component {
               )}
               { this.props.inBeta ? (
                 <Box background='#a848ab50' pad='small' round='small' margin={{ horizontal: 'small' }} align='center' justify='center'>
-                  <Text color='white'>Beta Testing Open</Text>
+                  <Text color='white'>Beta Testing Open Soon</Text>
                 </Box>
               ) : (
                 <Box>
