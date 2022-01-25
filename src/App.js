@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Box, Grommet, ResponsiveContext } from 'grommet';
-import AppBar from './components/Global/AppBar';
-import HomePage from './Pages/HomePage';
-import AboutMePage from './Pages/AboutMe/AboutMePage';
-import ContactPage from './Pages/ContactPage';
-import MyProjectsPage from './Pages/Projects/MyProjectsPage';
-import UnknownPage from './Pages/UnknownPage';
-import ResumePage from './Pages/AboutMe/ResumePage';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Box, Anchor, Grommet, Text, ResponsiveContext } from 'grommet'
+import { FaGithub, FaTwitter } from 'react-icons/fa'
+import AppBar from './components/Global/AppBar'
+import HomePage from './Pages/HomePage'
+import AboutMePage from './Pages/AboutMe/AboutMePage'
+import ContactPage from './Pages/ContactPage'
+import MyProjectsPage from './Pages/Projects/MyProjectsPage'
+import UnknownPage from './Pages/UnknownPage'
+import ResumePage from './Pages/AboutMe/ResumePage'
 import theme from './theme'
 import getCommits from './GithubHelper'
 
 async function fetchDiscordStatus() {
   let response = await fetch("https://api.becketto.dev/getDiscordStatus?userId=783088512139788298");
-  let data = await response.json();
-  return data;
+  return response.json();;
 }
 
 class App extends Component {
@@ -62,10 +62,10 @@ class App extends Component {
                 <Box direction='row' flex='grow' fill={true} margin={{ top: '45pt'}}>
                   <Box flex='grow' fill={true} direction='column'>
                     <Switch>
-                      <Route path='/aboutMe/resume' exact>
+                      <Route path='/resume' exact>
                         <ResumePage />
                       </Route>
-                      <Route path='/aboutMe' exact>
+                      <Route path='/aboutme' exact>
                         <AboutMePage />
                       </Route>
                       <Route path='/contact' exact>
@@ -83,6 +83,22 @@ class App extends Component {
                     </Switch>
                   </Box>
                 </Box>
+                { size !== 'small' ? (
+                  <Box direction='row' justify='center' align='center' gap='medium' pad={{ bottom: 'medium', top: 'small'}}>
+                    <Anchor target='_blank' color='eppeline' href='https://twitter.com/h4l1ie' label={
+                      <Box direction='row' align='center' gap='xsmall' >
+                        <FaTwitter size='20pt' />
+                        <Text>@h4l1ie</Text>
+                      </Box>
+                    } />
+                    <Anchor target='_blank' color='eppeline' href='https://github.com/ha1lie' label={
+                      <Box align='center' direction='row' gap='xsmall' >
+                        <FaGithub size='20pt' />
+                        <Text>@ha1lie</Text>
+                      </Box>
+                    } />
+                  </Box>
+                ) : ( <Box></Box> ) }
               </Box>
             )}
           </ResponsiveContext.Consumer>

@@ -47,7 +47,7 @@ class AppBar extends Component {
                 <Button icon={ <Menu /> } onClick={ () => { this.setState({ showMobileContainer: true, showAcivityThread: this.state.showAcivityThread }) } } />
             ) : (
                 <Box direction='row' pad='horizontal'>
-                <Anchor color='eppeline' label='About Me' href='/aboutMe' />
+                <Anchor color='eppeline' label='About Me' href='/aboutme' />
                 <Anchor color='eppeline' label='Contact' margin={{left: 'small'}} href='/contact' />
                 <Anchor color='eppeline' label='My Projects' margin={{left: 'small'}} href='/projects' />
               </Box>
@@ -86,7 +86,7 @@ class AppBar extends Component {
                       </Box>
                     ) : (
                       <Box direction='column' align='center'>
-                        <Anchor color='eppeline' href='/aboutMe' >
+                        <Anchor color='eppeline' href='/aboutme' >
                           <Heading level='1'>About Me</Heading>
                         </Anchor>
                         <Anchor color='eppeline' href='/contact' >
