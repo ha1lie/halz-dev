@@ -17,7 +17,7 @@ class HomePage extends Component {
                   </Box>
                 ) : (
                   <Box width='200px'>
-                    <Box flex='grow' round='medium' width='small' responsive={false} background="url('/foliage.jpg')" />
+                    <Box flex='grow' round='medium' width='small' responsive={false} background="url('/foliage.JPG')" />
                   </Box>
                 )}
                 <Box margin='medium' direction='column' justify='between' align='start'>
